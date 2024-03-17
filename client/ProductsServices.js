@@ -34,4 +34,20 @@ async function getProductById(id, shopId) {
   }
 }
 
-export { getProductById, newProduct };
+async function destroyProduct(id, shopId) {
+  try {
+    const response = await fetch(`${API_URL}/shops/${shopId}/products/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error deleting product:", error);
+  }
+}
+
+export { destroyProduct, getProductById, newProduct };

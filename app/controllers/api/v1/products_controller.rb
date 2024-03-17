@@ -20,6 +20,12 @@ class Api::V1::ProductsController < ApplicationController
     end
   end
 
+  def destroy
+    @product = Product.find(params[:id])
+    @product.destroy
+    render json: {message: "Product deleted"}
+  end
+
   private
 
   def product_params

@@ -7,9 +7,8 @@ import "./App.css";
 function App() {
   return (
     <>
-      <h1>HERE</h1>
+      <h1>App.jsx</h1>
       <Router>
-        <h2>HERE</h2>
         <AppRoutes />
       </Router>
     </>

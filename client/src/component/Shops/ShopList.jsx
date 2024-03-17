@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
+import { Link } from "react-router-dom";
 import { fetchAllShops } from "../../../ShopServices.js";
 
 function ShopList() {
@@ -30,6 +31,7 @@ function ShopList() {
             <Card.Subtitle className="mb-2 text-muted">
               {shop.address}
             </Card.Subtitle>
+            <Link to={`/shops/${shop.id}`}>View Shop</Link>
           </Card.Body>
         </Card>
       ))}

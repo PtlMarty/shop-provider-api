@@ -1,12 +1,17 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./component/AppRoutes";
+
 import "./App.css";
-import ShopList from "./component/Card/ShopList";
 
 function App() {
   return (
     <>
       <h1>HERE</h1>
-      <ShopList />
+      <Router>
+        <h2>HERE</h2>
+        <AppRoutes />
+      </Router>
     </>
   );
 }

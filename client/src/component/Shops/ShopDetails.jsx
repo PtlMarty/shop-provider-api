@@ -6,20 +6,29 @@ import { destroyProduct } from "../../../ProductsServices";
 import { fetchShopById, shopProducts } from "../../../ShopServices";
 
 function ShopDetails() {
+  // State to store the shop details
   const [shop, setShop] = useState({});
+  // State to store the products
   const { id } = useParams();
+  //  State to store the products
   const [products, setProducts] = useState([]);
+  // State to store the confirmation modal visibility
   const [showConfirmation, setShowConfirmation] = useState(false);
+  // State to store the product id to delete
   const [productIdToDelete, setProductIdToDelete] = useState(null);
+  // State to store the error message
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCurrentShop = async () => {
       try {
+        // Fetch the shop by id
         const json = await fetchShopById(id);
+        // Set the shop in the state
         setShop(json);
         setError(null); // Clear any previous errors
       } catch (e) {
+        // Log the error to the console
         console.error("An error occurred while fetching shop details:", e);
         setError("Failed to fetch shop details. Please try again later.");
       }
@@ -28,34 +37,44 @@ function ShopDetails() {
   }, [id]);
 
   useEffect(() => {
+    // Fetch the products for the shop
     const fetchProducts = async () => {
       try {
         const json = await shopProducts(id);
+        // Set the products in the state
         setProducts(json);
         setError(null); // Clear any previous errors
       } catch (e) {
+        // Log the error to the console
         console.error("An error occurred while fetching products:", e);
         setError("Failed to fetch products. Please try again later.");
       }
     };
     fetchProducts();
   }, [id]);
-
+  // Delete product
   const deleteProductHandler = async (id) => {
     try {
       await destroyProduct(id, shop.id);
+      // Remove the product from the state
       setProducts(products.filter((product) => product.id !== id));
+      // Hide the confirmation modal
       setShowConfirmation(false);
+      setError(null); // Clear any previous errors
     } catch (e) {
+      // Log the error to the console
       console.error("Failed to delete the product:", e);
       setError("Failed to delete the product. Please try again later.");
     } finally {
+      // Reset the product id to delete
       setProductIdToDelete(null);
     }
   };
-
+  // Confirmation modal
   const handleDeleteConfirmation = (id) => {
+    //  Set the product id to delete
     setProductIdToDelete(id);
+    // Show the confirmation modal
     setShowConfirmation(true);
   };
 

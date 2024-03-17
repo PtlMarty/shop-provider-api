@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -7,18 +7,25 @@ import { Link } from "react-router-dom";
 import { fetchAllShops } from "../../../ShopServices.js";
 
 function ShopsList() {
+  // State to store the shops
   const [shops, setShops] = useState([]);
+  // State to store the loading status
   const [, setLoading] = useState(true);
+  // State to store the error message
   const [, setError] = useState(null);
+
   // fetch posts from the API
-  React.useEffect(() => {
+  useEffect(() => {
     async function loadPosts() {
       try {
         const data = await fetchAllShops();
+        // Set the shops in the state
         setShops(data);
         setLoading(false);
       } catch (e) {
+        // Log the error to the console
         setError(e);
+        // Set the loading to false
         setLoading(false);
       }
     }

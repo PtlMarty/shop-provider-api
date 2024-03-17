@@ -10,6 +10,7 @@ class Api::V1::ShopsController < ApplicationController
 
   def show # GET /api/v1/shops/:id
     @shop = Shop.find(params[:id])
+    @product = @shop.products
     render json: @shop
   end
 

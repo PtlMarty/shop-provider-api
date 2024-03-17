@@ -30,4 +30,12 @@ async function createShop(shop) {
   return response.json();
 }
 
-export { createShop, fetchAllShops, fetchShopById };
+async function shopProducts(shopId) {
+  const response = await fetch(`${API_URL}/shops/${shopId}/products`);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return response.json();
+}
+
+export { createShop, fetchAllShops, fetchShopById, shopProducts };

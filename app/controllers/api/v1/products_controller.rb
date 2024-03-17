@@ -12,6 +12,7 @@ class Api::V1::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
+    @product.shop_id = params[:shop_id]
     if @product.save
       render json: @product, status: :created
     else
@@ -22,6 +23,6 @@ class Api::V1::ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:name, :price, :quantity, :shop_id)
+    params.require(:product).permit(:name,:description, :price, :quantity, :shop_id)
   end
 end

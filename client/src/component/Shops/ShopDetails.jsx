@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "react-bootstrap/Card";
+import Table from "react-bootstrap/Table";
 import { Link, useParams } from "react-router-dom";
 import { fetchShopById, shopProducts } from "../../../ShopServices";
 
@@ -39,19 +39,32 @@ function ShopDetails() {
       <h2>/shops/id</h2>
       <Link to={`/shops/${id}/products/new`}>New Product</Link>
       {shop.name}
-      {products.map((product) => (
-        <div key={product.id}>
-          <Card>
-            <Card.Body>
-              <Card.Title>{product.name}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                {product.address}
-              </Card.Subtitle>
-              <Card.Text>{product.description}</Card.Text>
-            </Card.Body>
-          </Card>
-        </div>
-      ))}
+      <div key={shop.id}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.name}</td>
+                <td>{product.description}</td>
+                <td>{product.price}</td>
+                <td>{product.quantity}</td>
+                <td>
+                  <Link to={`/shops/${id}/products/${product.id}`}>View</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
     </div>
   );
 }

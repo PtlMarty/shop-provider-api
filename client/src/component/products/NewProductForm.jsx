@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { newProduct } from "../../../ProductsServices";
 
 function NewProductForm() {
@@ -8,6 +8,7 @@ function NewProductForm() {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const { id: shopId } = useParams(); // Corrected
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +17,7 @@ function NewProductForm() {
     try {
       const response = await newProduct(shopId, productData); // Corrected
       console.log("New product created:", response);
+      navigate(`/shops/${shopId}/products/${response.id}`);
     } catch (e) {
       console.error("An error occurred:", e);
     }

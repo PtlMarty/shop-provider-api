@@ -24,6 +24,7 @@ function ShopList() {
 
   return (
     <div>
+      <h2>/shops</h2>
       {shops.map((shop) => (
         <Card key={shop.id} style={{ width: "18rem" }}>
           <Card.Body>

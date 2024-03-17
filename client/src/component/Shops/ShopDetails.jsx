@@ -19,7 +19,12 @@ function ShopDetails() {
     fetchCurrentShops();
   }, [id]);
 
-  return <div>{shop.name}</div>;
+  return (
+    <div>
+      <h2>/shops/id</h2>
+      {shop.name}
+    </div>
+  );
 }
 
 export default ShopDetails;

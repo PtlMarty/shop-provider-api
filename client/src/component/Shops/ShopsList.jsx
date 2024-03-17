@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { fetchAllShops } from "../../../ShopServices.js";
 
-function ShopList() {
+function ShopsList() {
   const [shops, setShops] = useState([]);
   const [, setLoading] = useState(true);
   const [, setError] = useState(null);
@@ -40,4 +40,4 @@ function ShopList() {
   );
 }
 
-export default ShopList;
+export default ShopsList;

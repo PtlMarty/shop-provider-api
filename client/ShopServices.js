@@ -16,4 +16,18 @@ async function fetchShopById(id) {
   return response.json();
 }
 
-export { fetchAllShops, fetchShopById };
+async function createShop(shop) {
+  const response = await fetch(`${API_URL}/shops`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(shop),
+  });
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return response.json();
+}
+
+export { createShop, fetchAllShops, fetchShopById };

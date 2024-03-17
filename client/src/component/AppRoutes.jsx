@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import NewShopForm from "./Shops/NewShopForm";
 import ShopDetails from "./Shops/ShopDetails";
 import ShopsList from "./Shops/ShopsList";
 
@@ -7,6 +8,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<ShopsList />} />
       <Route path="shops/:id" element={<ShopDetails />} />
+      <Route path="shops/new" element={<NewShopForm />} />
     </Routes>
   );
 }

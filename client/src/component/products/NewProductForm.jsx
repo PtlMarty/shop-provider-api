@@ -3,16 +3,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { newProduct } from "../../../ProductsServices";
 
 function NewProductForm() {
+  // State to store the product details
   const [name, setName] = useState("");
+  // State to store the product description
   const [description, setDescription] = useState("");
+  // State to store the product price
   const [price, setPrice] = useState("");
+  // State to store the product quantity
   const [quantity, setQuantity] = useState("");
-  const { id: shopId } = useParams(); // Corrected
+  // State to store the shop id
+  const { id: shopId } = useParams();
+  // State to store the navigation object
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // Create a new product
     const productData = { name, description, price, quantity };
     try {
       const response = await newProduct(shopId, productData); // Corrected

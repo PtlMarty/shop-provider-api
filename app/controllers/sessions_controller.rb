@@ -11,5 +11,22 @@ class SessionsController < ApplicationController
       end
   end
 
+  def auto_login
+        auth_token = request.headers['auth-token'] #DO NOT use 'auth_token' - NO UNDERSCORE
+        if auth_token and auth_token != 'undefined'
+            token = JWT.decode(auth_token, ENV['JWT_TOKEN'])[0] #pull first item from array
+            user = User.find_by(id: token['user'])
+            render json: user.id, status: :ok
+        else
+            cannot_login
+        end
+    end
+
+  private
+
+    def cannot_login
+        render json: {errors: ['Invalid email address and/or password!']}, status: :unauthorized #401
+    end
+
   #end
 end

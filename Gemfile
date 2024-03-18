@@ -22,7 +22,19 @@ gem "puma", "~> 5.0"
 # gem "kredis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
+
+# active_model_serializers gem for serializing objects to JSON
+gem "active_model_serializers", "~> 0.10.13"
+
+# rest-client
+gem "rest-client"
+
+# json gem for parsing JSON
+gem "json"
+
+# jwt gem for encoding and decoding JWT tokens
+gem "jwt"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
@@ -38,6 +50,8 @@ gem "rack-cors"
 
 # faher gem for seeding database with fake data
 gem "faker"
+
+gem "dotenv-rails"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

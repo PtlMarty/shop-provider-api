@@ -1,87 +1,56 @@
-import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link, useParams } from "react-router-dom";
 import { destroyProduct } from "../../../ProductsServices";
-import { fetchShopById, shopProducts } from "../../../ShopServices";
+import useShopDetails from "../../component/customHooks/useShopDetails";
 
-function ShopDetails() {
-  // State to store the shop details
-  const [shop, setShop] = useState({});
-  // State to store the products
-  const { id } = useParams();
-  //  State to store the products
-  const [products, setProducts] = useState([]);
-  // State to store the confirmation modal visibility
+// Custom hook for fetching shop details
+
+// Product table row component
+const ProductTableRow = ({ product, onDelete }) => (
+  <tr key={product.id}>
+    <td>{product.name}</td>
+    <td>{product.description}</td>
+    <td>{product.price}</td>
+    <td>{product.quantity}</td>
+    <td>
+      <Link to={`/shops/${product.shopId}/products/${product.id}`}>View</Link>
+      <Button onClick={() => onDelete(product.id)}>Delete</Button>
+    </td>
+  </tr>
+);
+
+const ShopDetails = () => {
+  const { id: shopId } = useParams();
+  const { shop, products, error, setProducts, setError } =
+    useShopDetails(shopId); // Use the custom hook
   const [showConfirmation, setShowConfirmation] = useState(false);
-  // State to store the product id to delete
   const [productIdToDelete, setProductIdToDelete] = useState(null);
-  // State to store the error message
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchCurrentShop = async () => {
-      try {
-        // Fetch the shop by id
-        const json = await fetchShopById(id);
-        // Set the shop in the state
-        setShop(json);
-        setError(null); // Clear any previous errors
-      } catch (e) {
-        // Log the error to the console
-        console.error("An error occurred while fetching shop details:", e);
-        setError("Failed to fetch shop details. Please try again later.");
-      }
-    };
-    fetchCurrentShop();
-  }, [id]);
+  const handleDeleteConfirmation = (id) => {
+    setProductIdToDelete(id);
+    setShowConfirmation(true);
+  };
 
-  useEffect(() => {
-    // Fetch the products for the shop
-    const fetchProducts = async () => {
-      try {
-        const json = await shopProducts(id);
-        // Set the products in the state
-        setProducts(json);
-        setError(null); // Clear any previous errors
-      } catch (e) {
-        // Log the error to the console
-        console.error("An error occurred while fetching products:", e);
-        setError("Failed to fetch products. Please try again later.");
-      }
-    };
-    fetchProducts();
-  }, [id]);
-  // Delete product
   const deleteProductHandler = async (id) => {
     try {
-      await destroyProduct(id, shop.id);
-      // Remove the product from the state
+      await destroyProduct(id, shopId);
       setProducts(products.filter((product) => product.id !== id));
-      // Hide the confirmation modal
       setShowConfirmation(false);
-      setError(null); // Clear any previous errors
-    } catch (e) {
-      // Log the error to the console
-      console.error("Failed to delete the product:", e);
+    } catch (error) {
       setError("Failed to delete the product. Please try again later.");
+      console.log(error);
     } finally {
-      // Reset the product id to delete
       setProductIdToDelete(null);
     }
-  };
-  // Confirmation modal
-  const handleDeleteConfirmation = (id) => {
-    //  Set the product id to delete
-    setProductIdToDelete(id);
-    // Show the confirmation modal
-    setShowConfirmation(true);
   };
 
   return (
     <div>
       <h2>{shop.name}</h2>
-      <Link to={`/shops/${id}/products/new`}>New Product</Link>
+      <Link to={`/shops/${shopId}/products/new`}>New Product</Link>
       {error && <Alert variant="danger">{error}</Alert>}
       <div key={shop.id}>
         <Table striped bordered hover>
@@ -96,18 +65,11 @@ function ShopDetails() {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
-                <td>{product.price}</td>
-                <td>{product.quantity}</td>
-                <td>
-                  <Link to={`/shops/${id}/products/${product.id}`}>View</Link>
-                  <button onClick={() => handleDeleteConfirmation(product.id)}>
-                    Delete
-                  </button>
-                </td>
-              </tr>
+              <ProductTableRow
+                key={product.id}
+                product={product}
+                onDelete={handleDeleteConfirmation}
+              />
             ))}
           </tbody>
         </Table>
@@ -127,7 +89,10 @@ function ShopDetails() {
           </Button>
           <Button
             variant="danger"
-            onClick={() => deleteProductHandler(productIdToDelete)}
+            onClick={() =>
+              deleteProductHandler(productIdToDelete) &&
+              setShowConfirmation(false)
+            }
           >
             Delete
           </Button>
@@ -135,6 +100,11 @@ function ShopDetails() {
       </Modal>
     </div>
   );
-}
+};
+
+ProductTableRow.propTypes = {
+  product: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 
 export default ShopDetails;

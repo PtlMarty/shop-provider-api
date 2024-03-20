@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import { Link, useParams } from "react-router-dom";
 import { getProductById } from "../../../ProductsServices";
 
 function ProductDetails() {
@@ -25,11 +26,18 @@ function ProductDetails() {
   }, [id, shopId]);
 
   return (
-    <div>
-      <h2>{product.name}</h2>
-      <p>{product.description}</p>
-      <p>{product.price}</p>
-      <p>{product.quantity}</p>
+    <div className="mt-5 d-flex align-items-center justify-content-center">
+      <Card>
+        <Card.Body>
+          <Card.Title>{product.name}</Card.Title>
+          <Card.Text>{product.description}</Card.Text>
+          <Card.Text>Price: {product.price}</Card.Text>
+          <Card.Text>Quantity: {product.quantity}</Card.Text>
+        </Card.Body>
+        <Card.Footer>
+          <Link to={`/shops`}>Back</Link>
+        </Card.Footer>
+      </Card>
     </div>
   );
 }

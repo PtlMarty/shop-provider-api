@@ -72,9 +72,9 @@ function LoginModal() {
           <Form.Control
             onChange={(e) => setPassword(e.target.value)}
             name="password"
-            value={password}
             type="password"
             placeholder="password"
+            value={password}
           />
           <br />
           <Form.Text className="text-muted">

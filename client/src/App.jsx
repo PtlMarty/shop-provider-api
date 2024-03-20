@@ -6,8 +6,7 @@ import NavBar from "./component/NavBar/NavBar";
 import "./App.css";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-
+  const [currentUser, setCurrentUser] = useState({});
   useEffect(() => {
     async function autoLogin() {
       if (localStorage.uid) {
@@ -33,14 +32,22 @@ function App() {
     }
 
     autoLogin();
-    console.log();
   }, []);
-  console.log(currentUser);
+  const handleLogout = () => {
+    localStorage.removeItem("uid"); // remove 'uid' from localStorage
+    setCurrentUser(null);
+    // reset user state to 'null'
+  };
   return (
     <>
-      <h1>App.jsx</h1>
       <Router>
-        <NavBar />
+        <NavBar currentUser={currentUser} handleLogout={handleLogout} />
+        <h1>App.jsx</h1>
+        {currentUser.last_name ? (
+          <h2>Welcome {currentUser.email}</h2>
+        ) : (
+          <h2>Welcome, please login</h2>
+        )}
         <AppRoutes />
       </Router>
     </>

@@ -5,6 +5,7 @@ import ShopsList from "./Shops/ShopsList";
 import NewProductForm from "./products/NewProductForm";
 import ProductDetails from "./products/ProductDetails";
 import LoginForm from "./userForm/LoginForm";
+import RegisterForm from "./userForm/RegisterForm";
 
 function AppRoutes() {
   return (
@@ -14,6 +15,7 @@ function AppRoutes() {
       <Route path="shops/new" element={<NewShopForm />} />
       <Route path="shops/:id/products/new" element={<NewProductForm />} />
       <Route path="shops/:id/products/:id" element={<ProductDetails />} />
+      <Route path="/register" element={<RegisterForm />} />
       <Route path="/login" element={<LoginForm />} />
     </Routes>
   );

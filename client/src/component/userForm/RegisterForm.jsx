@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function RegisterForm(setCurrentUser) {
@@ -40,57 +40,64 @@ function RegisterForm(setCurrentUser) {
     });
   };
   return (
-    <div>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="first_name">
-          <Form.Label>First name:</Form.Label>
-          <Form.Control
-            type="text"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="last_name">
-          <Form.Label>Last name:</Form.Label>
-          <Form.Control
-            type="text"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="email">
-          <Form.Label>Email:</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="password">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group controlId="password_confirmation">
-          <Form.Label>Confirm password:</Form.Label>
-          <Form.Control
-            type="password"
-            name="password_confirmation"
-            value={formData.password_confirmation}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Register
-        </Button>
-      </Form>
+    <div className="d-flex justify-content-center">
+      <Card className="w-75 p-3">
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="first_name">
+            <Form.Label>First name:</Form.Label>
+            <Form.Control
+              type="text"
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="last_name">
+            <Form.Label>Last name:</Form.Label>
+            <Form.Control
+              type="text"
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="email">
+            <Form.Label>Email:</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="password">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Form.Group controlId="password_confirmation">
+            <Form.Label>Confirm password:</Form.Label>
+            <Form.Control
+              type="password"
+              name="password_confirmation"
+              value={formData.password_confirmation}
+              onChange={handleChange}
+              autoComplete="on"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" className="my-5">
+            Register
+          </Button>
+        </Form>
+      </Card>
     </div>
   );
 }

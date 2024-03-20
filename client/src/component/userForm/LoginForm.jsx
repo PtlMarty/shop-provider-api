@@ -64,6 +64,7 @@ function LoginModal() {
             type="email"
             placeholder="name@example.com"
             autoFocus
+            autoComplete="on"
           />
         </Form.Group>
 
@@ -75,6 +76,7 @@ function LoginModal() {
             type="password"
             placeholder="password"
             value={password}
+            autoComplete="on"
           />
           <br />
           <Form.Text className="text-muted">

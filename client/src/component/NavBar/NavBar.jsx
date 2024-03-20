@@ -19,22 +19,25 @@ function NavBar({ currentUser, handleLogout }) {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/">Shops</Nav.Link>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
+                <NavDropdown.Item>
+                  {currentUser && currentUser.last_name ? (
+                    <span>{currentUser.last_name}</span>
+                  ) : (
+                    <>
+                      <Link to="/login">Login</Link>
+                    </>
+                  )}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item>
                   {currentUser && currentUser.last_name ? (
                     <span>{currentUser.last_name}</span>
                   ) : (
-                    <Link to="/login">Login</Link>
+                    <>
+                      <Link to="/register">SignUp</Link>
+                    </>
                   )}
                 </NavDropdown.Item>
-                <NavDropdown.Divider />
                 {currentUser && currentUser.last_name && (
                   <NavDropdown.Item>
                     <Button onClick={handleLogout}>Logout</Button>

@@ -31,7 +31,7 @@ function NavBar({ currentUser, handleLogout }) {
                 <NavDropdown.Divider />
                 <NavDropdown.Item>
                   {currentUser && currentUser.last_name ? (
-                    <span>{currentUser.last_name}</span>
+                    <span>Setting</span>
                   ) : (
                     <>
                       <Link to="/register">SignUp</Link>

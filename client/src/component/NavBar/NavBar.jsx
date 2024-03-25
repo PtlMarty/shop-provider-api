@@ -5,9 +5,22 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function NavBar({ currentUser, handleLogout }) {
+  const navigate = useNavigate();
+
+  const handleNewShopClick = () => {
+    navigate("/shops/new");
+  };
+
+  const handleNewLoginClick = () => {
+    navigate("/login");
+  };
+
+  const handleNewUserClick = () => {
+    navigate("/register");
+  };
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -19,25 +32,31 @@ function NavBar({ currentUser, handleLogout }) {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/">Shops</Nav.Link>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item>
-                  {currentUser && currentUser.last_name ? (
-                    <span>{currentUser.last_name}</span>
-                  ) : (
-                    <>
-                      <Link to="/login">Login</Link>
-                    </>
+                <NavDropdown.Item onClick={handleNewShopClick}>
+                  {currentUser && currentUser.last_name && (
+                    <span>New Shop</span>
                   )}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>
-                  {currentUser && currentUser.last_name ? (
-                    <span>Setting</span>
-                  ) : (
-                    <>
-                      <Link to="/register">SignUp</Link>
-                    </>
-                  )}
-                </NavDropdown.Item>
+                {currentUser && currentUser.last_name ? (
+                  <NavDropdown.Item>
+                    <span>Profile</span>
+                  </NavDropdown.Item>
+                ) : (
+                  <NavDropdown.Item onClick={handleNewLoginClick}>
+                    <span>Login</span>
+                  </NavDropdown.Item>
+                )}
+                <NavDropdown.Divider />
+                {currentUser && currentUser.last_name ? (
+                  <NavDropdown.Item>
+                    <span>Profile</span>
+                  </NavDropdown.Item>
+                ) : (
+                  <NavDropdown.Item onClick={handleNewUserClick}>
+                    <span>Register</span>
+                  </NavDropdown.Item>
+                )}
                 {currentUser && currentUser.last_name && (
                   <NavDropdown.Item>
                     <Button onClick={handleLogout}>Logout</Button>

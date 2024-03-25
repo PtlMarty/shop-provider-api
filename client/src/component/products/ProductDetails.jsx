@@ -5,15 +5,16 @@ import { getProductById } from "../../../ProductsServices";
 
 function ProductDetails() {
   // State to store the product details
-  const { id, shopId } = useParams();
+  const { id } = useParams();
   // State to store the product details
   const [product, setProduct] = useState([]);
+  const shopId = product.shop_id;
 
   useEffect(() => {
     // Fetch the product by id
     const fetchCurrentProduct = async () => {
       try {
-        const json = await getProductById(id, shopId);
+        const json = await getProductById(id);
         // Set the product in the state
         setProduct(json);
       } catch (e) {
@@ -23,8 +24,7 @@ function ProductDetails() {
       }
     };
     fetchCurrentProduct();
-  }, [id, shopId]);
-
+  }, [id]);
   return (
     <div className="mt-5 d-flex align-items-center justify-content-center">
       <Card>
@@ -35,7 +35,7 @@ function ProductDetails() {
           <Card.Text>Quantity: {product.quantity}</Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Link to={`/shops`}>Back</Link>
+          <Link to={`/shops/${shopId}`}>Back</Link>
         </Card.Footer>
       </Card>
     </div>

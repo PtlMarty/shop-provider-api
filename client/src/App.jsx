@@ -48,7 +48,7 @@ function App() {
         ) : (
           <h2>Welcome, please login</h2>
         )}
-        <AppRoutes />
+        <AppRoutes currentUser={currentUser} />
       </Router>
     </>
   );

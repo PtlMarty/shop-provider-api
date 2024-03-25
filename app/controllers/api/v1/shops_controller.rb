@@ -18,18 +18,19 @@ class Api::V1::ShopsController < ApplicationController
     @shop = Shop.new
   end
 
-  def create # POST /api/v1/shops
+  def create
     @shop = Shop.new(shop_params)
+
     if @shop.save
       render json: @shop, status: :created
     else
-      render json: @shop.errors, status: :unprocessable_entity
+      render json: { errors: @shop.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   private
 
   def shop_params
-    params.require(:shop).permit(:name, :address, :email)
+    params.require(:shop).permit(:name, :address, :email, :user_id)
   end
 end

@@ -1,3 +1,4 @@
+import Proptypes from "prop-types";
 import { Route, Routes } from "react-router-dom";
 import NewShopForm from "./Shops/NewShopForm";
 import ShopDetails from "./Shops/ShopDetails";
@@ -7,12 +8,18 @@ import ProductDetails from "./products/ProductDetails";
 import LoginForm from "./userForm/LoginForm";
 import RegisterForm from "./userForm/RegisterForm";
 
-function AppRoutes() {
+function AppRoutes({ currentUser }) {
   return (
     <Routes>
-      <Route path="/" element={<ShopsList />} />
-      <Route path="shops/:id" element={<ShopDetails />} />
-      <Route path="shops/new" element={<NewShopForm />} />
+      <Route path="/" element={<ShopsList currentUser={currentUser} />} />
+      <Route
+        path="shops/:id"
+        element={<ShopDetails currentUser={currentUser} />}
+      />
+      <Route
+        path="shops/new"
+        element={<NewShopForm currentUser={currentUser} />}
+      />
       <Route path="shops/:id/products/new" element={<NewProductForm />} />
       <Route path="shops/:id/products/:id" element={<ProductDetails />} />
       <Route path="/register" element={<RegisterForm />} />
@@ -20,5 +27,9 @@ function AppRoutes() {
     </Routes>
   );
 }
+
+AppRoutes.propTypes = {
+  currentUser: Proptypes.object,
+};
 
 export default AppRoutes;

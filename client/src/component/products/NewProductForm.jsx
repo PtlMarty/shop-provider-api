@@ -22,7 +22,7 @@ function NewProductForm() {
     const productData = { name, description, price, quantity };
     try {
       const response = await newProduct(shopId, productData); // Corrected
-      console.log("New product created:", response);
+      console.log("New product created:", name);
       navigate(`/shops/${shopId}/products/${response.id}`);
     } catch (e) {
       console.error("An error occurred:", e);

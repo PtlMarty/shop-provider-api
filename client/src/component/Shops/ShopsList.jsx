@@ -1,36 +1,47 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import { Link } from "react-router-dom";
-import { fetchAllShops } from "../../../ShopServices.js";
+import { fetchAllShopsByUser } from "../../../ShopServices.js";
 
-function ShopsList() {
-  // State to store the shops
+function ShopsList({ currentUser }) {
   const [shops, setShops] = useState([]);
-  // State to store the loading status
-  const [, setLoading] = useState(true);
-  // State to store the error message
-  const [, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // fetch posts from the API
   useEffect(() => {
-    async function loadPosts() {
-      try {
-        const data = await fetchAllShops();
-        // Set the shops in the state
-        setShops(data);
-        setLoading(false);
-      } catch (e) {
-        // Log the error to the console
-        setError(e);
-        // Set the loading to false
-        setLoading(false);
+    if (currentUser && currentUser.id) {
+      // Check if currentUser is defined
+      // eslint-disable-next-line no-inner-declarations
+      async function loadShops() {
+        setLoading(true);
+        try {
+          const data = await fetchAllShopsByUser(currentUser.id);
+          setShops(data);
+        } catch (e) {
+          setError(e);
+        } finally {
+          setLoading(false);
+        }
       }
+      loadShops();
     }
-    loadPosts();
-  }, []);
+  }, [currentUser]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (shops.length === 0) {
+    return <div>No shops found</div>;
+  }
 
   return (
     <div>
@@ -55,5 +66,9 @@ function ShopsList() {
     </div>
   );
 }
+
+ShopsList.propTypes = {
+  currentUser: PropTypes.object,
+};
 
 export default ShopsList;

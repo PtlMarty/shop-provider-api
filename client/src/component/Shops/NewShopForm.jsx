@@ -24,7 +24,7 @@ function NewShopForm({ currentUser }) {
 
     const shopData = { ...formData, user_id: currentUser.id };
     try {
-      const response = await createShop(shopData);
+      const response = await createShop(shopData, currentUser.id);
       navigate(`/shops/${response.id}`);
     } catch (error) {
       console.error("An error occurred:", error);

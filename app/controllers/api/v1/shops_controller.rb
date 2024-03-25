@@ -1,7 +1,8 @@
 class Api::V1::ShopsController < ApplicationController
 
   def index # GET /api/v1/shops
-    @shops = Shop.all
+    @user = User.find(params[:user_id])
+    @shops = @user.shops
     if params[:name].present?
       @shops = @shops.where('name ILIKE ?', "%#{params[:name]}%")
     end

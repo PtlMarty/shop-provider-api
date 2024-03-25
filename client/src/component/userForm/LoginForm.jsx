@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 
-function LoginModal() {
+function Login() {
   // modal state
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
@@ -94,4 +94,4 @@ function LoginModal() {
   );
 }
 
-export default LoginModal;
+export default Login;

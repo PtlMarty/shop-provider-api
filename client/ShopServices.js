@@ -8,6 +8,14 @@ async function fetchAllShops() {
   return response.json();
 }
 
+async function fetchAllShopsByUser(userId) {
+  const response = await fetch(`${API_URL}/users/${userId}/shops`);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  return response.json();
+}
+
 async function fetchShopById(id) {
   const response = await fetch(`${API_URL}/shops/${id}`);
   if (!response.ok) {
@@ -16,8 +24,8 @@ async function fetchShopById(id) {
   return response.json();
 }
 
-async function createShop(shop) {
-  const response = await fetch(`${API_URL}/shops`, {
+async function createShop(shop, userId) {
+  const response = await fetch(`${API_URL}/users/${userId}/shops`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -38,4 +46,10 @@ async function shopProducts(shopId) {
   return response.json();
 }
 
-export { createShop, fetchAllShops, fetchShopById, shopProducts };
+export {
+  createShop,
+  fetchAllShops,
+  fetchAllShopsByUser,
+  fetchShopById,
+  shopProducts,
+};

@@ -29,6 +29,12 @@ class Api::V1::ShopsController < ApplicationController
     end
   end
 
+  def destroy
+    @shop = Shop.find(params[:id])
+    @shop.destroy
+    render json: { message: 'Shop deleted' }, status: :ok
+  end
+
   private
 
   def shop_params

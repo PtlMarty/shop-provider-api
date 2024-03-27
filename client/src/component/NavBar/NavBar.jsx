@@ -30,7 +30,7 @@ function NavBar({ currentUser, handleLogout }) {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/">Shops</Nav.Link>
+              <Nav.Link href="/shops">Shops</Nav.Link>
               <NavDropdown title="Profile" id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={handleNewShopClick}>
                   {currentUser && currentUser.last_name && (

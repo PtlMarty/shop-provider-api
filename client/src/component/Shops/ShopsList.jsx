@@ -42,6 +42,7 @@ function ShopsList({ currentUser }) {
   return (
     <div>
       <h2>/users/:id/shops</h2>
+      <Link to="/shops/new">Create a new shop</Link>
       {currentUser && shops.length > 0 ? (
         <Container>
           <Row>

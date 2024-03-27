@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import NewShopForm from "./Shops/NewShopForm";
 import ShopDetails from "./Shops/ShopDetails";
 import ShopsList from "./Shops/ShopsList";
+import Home from "./pages/Home";
 import NewProductForm from "./products/NewProductForm";
 import ProductDetails from "./products/ProductDetails";
 import LoginForm from "./userForm/LoginForm";
@@ -11,7 +12,8 @@ import RegisterForm from "./userForm/RegisterForm";
 function AppRoutes({ currentUser }) {
   return (
     <Routes>
-      <Route path="/" element={<ShopsList currentUser={currentUser} />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/shops" element={<ShopsList currentUser={currentUser} />} />
       <Route
         path="shops/:id"
         element={<ShopDetails currentUser={currentUser} />}

@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { destroyProduct } from "../../../ProductsServices";
+import { destroyShop } from "../../../ShopServices";
 import useShopDetails from "../../component/customHooks/useShopDetails";
 
 // Custom hook for fetching shop details
@@ -22,12 +23,14 @@ const ProductTableRow = ({ product, onDelete }) => (
   </tr>
 );
 
-const ShopDetails = () => {
+const ShopDetails = ({ currentUser }) => {
   const { id: shopId } = useParams();
   const { shop, products, error, setProducts, setError } =
     useShopDetails(shopId); // Use the custom hook
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const navigate = useNavigate();
+  const userId = currentUser.id;
 
   const handleDeleteConfirmation = (id) => {
     setProductIdToDelete(id);
@@ -47,10 +50,25 @@ const ShopDetails = () => {
     }
   };
 
+  const deleteShopHandler = async (shopId) => {
+    try {
+      await destroyShop(userId, shopId); // Assuming destroyShop deletes the shop based on the ID
+      // Assuming you don't need to update products or error state when deleting a shop
+      setShowConfirmation(false);
+      navigate("/shops");
+    } catch (error) {
+      setError("Failed to delete the shop. Please try again later.");
+      console.error(error);
+    } finally {
+      setProductIdToDelete(null);
+    }
+  };
+
   return (
     <div>
       <h2>{shop.name}</h2>
       <Link to={`/shops/${shopId}/products/new`}>New Product</Link>
+      <Button onClick={() => setShowConfirmation(true)}>Delete Shop</Button>
       {error && <Alert variant="danger">{error}</Alert>}
       <div key={shop.id}>
         <Table striped bordered hover>
@@ -79,7 +97,7 @@ const ShopDetails = () => {
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure you want to delete this product?</Modal.Body>
+        <Modal.Body>Are you sure you want to delete this?</Modal.Body>
         <Modal.Footer>
           <Button
             variant="secondary"
@@ -89,10 +107,11 @@ const ShopDetails = () => {
           </Button>
           <Button
             variant="danger"
-            onClick={() =>
-              deleteProductHandler(productIdToDelete) &&
-              setShowConfirmation(false)
-            }
+            onClick={async () => {
+              await deleteProductHandler(productIdToDelete);
+              await deleteShopHandler(shopId);
+              setShowConfirmation(false);
+            }}
           >
             Delete
           </Button>
@@ -105,6 +124,10 @@ const ShopDetails = () => {
 ProductTableRow.propTypes = {
   product: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
+};
+
+ShopDetails.propTypes = {
+  currentUser: PropTypes.object,
 };
 
 export default ShopDetails;

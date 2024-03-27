@@ -39,30 +39,33 @@ function ShopsList({ currentUser }) {
     return <div>Error: {error.message}</div>;
   }
 
-  if (shops.length === 0) {
-    return <div>No shops found</div>;
-  }
-
   return (
     <div>
-      <h2>/shops</h2>
-      <Container>
-        <Row>
-          {shops.map((shop) => (
-            <Col key={shop.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
-              <Card key={shop.id} className="h-100 w-100">
-                <Card.Body>
-                  <Card.Title>{shop.name}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    {shop.address}
-                  </Card.Subtitle>
-                  <Link to={`/shops/${shop.id}`}>View Shop</Link>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      <h2>/users/:id/shops</h2>
+      {currentUser && shops.length > 0 ? (
+        <Container>
+          <Row>
+            {shops.map((shop) => (
+              <Col key={shop.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+                <Card className="h-100 w-100">
+                  <Card.Body>
+                    <Card.Title>{shop.name}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {shop.address}
+                    </Card.Subtitle>
+                    <Link to={`/shops/${shop.id}`}>View Shop</Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      ) : (
+        <div>
+          <p>You have not created any shops yet.</p>
+          <Link to="/shops/new">Create a new shop</Link>
+        </div>
+      )}
     </div>
   );
 }

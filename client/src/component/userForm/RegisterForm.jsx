@@ -27,7 +27,7 @@ function RegisterForm(setCurrentUser) {
     if (response.status !== 200) {
       console.log(body);
     } else {
-      navigate.push("/");
+      navigate("/");
       setCurrentUser(body); // Set the current user
     }
   };

@@ -42,8 +42,7 @@ function App() {
     <>
       <Router>
         <NavBar currentUser={currentUser} handleLogout={handleLogout} />
-        <h1>App.jsx</h1>
-        {currentUser.last_name ? (
+        {currentUser ? (
           <h2>Welcome {currentUser.email}</h2>
         ) : (
           <h2>Welcome, please login</h2>

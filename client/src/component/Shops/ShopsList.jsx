@@ -42,7 +42,9 @@ function ShopsList({ currentUser }) {
   return (
     <div>
       <h2>/users/:id/shops</h2>
-      <Link to="/shops/new">Create a new shop</Link>
+      <Link className="btn btn-success m-5" to="/shops/new">
+        Create a new shop
+      </Link>
       {currentUser && shops.length > 0 ? (
         <Container>
           <Row>
@@ -54,7 +56,12 @@ function ShopsList({ currentUser }) {
                     <Card.Subtitle className="mb-2 text-muted">
                       {shop.address}
                     </Card.Subtitle>
-                    <Link to={`/shops/${shop.id}`}>View Shop</Link>
+                    <Link
+                      className="btn btn-primary mt-2"
+                      to={`/shops/${shop.id}`}
+                    >
+                      View Shop
+                    </Link>
                   </Card.Body>
                 </Card>
               </Col>

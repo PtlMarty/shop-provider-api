@@ -43,7 +43,7 @@ function App() {
       <Router>
         <NavBar currentUser={currentUser} handleLogout={handleLogout} />
         {currentUser ? (
-          <h2>Welcome {currentUser.email}</h2>
+          <h2 className="mt-3">Welcome {currentUser.email}</h2>
         ) : (
           <h2>Welcome, please login</h2>
         )}

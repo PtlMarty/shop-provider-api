@@ -41,39 +41,31 @@ function ShopsList({ currentUser }) {
 
   return (
     <div>
-      <h2>/users/:id/shops</h2>
       <Link className="btn btn-success m-5" to="/shops/new">
         Create a new shop
       </Link>
-      {currentUser && shops.length > 0 ? (
-        <Container>
-          <Row>
-            {shops.map((shop) => (
-              <Col key={shop.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
-                <Card className="h-100 w-100">
-                  <Card.Body>
-                    <Card.Title>{shop.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      {shop.address}
-                    </Card.Subtitle>
-                    <Link
-                      className="btn btn-primary mt-2"
-                      to={`/shops/${shop.id}`}
-                    >
-                      View Shop
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
-      ) : (
-        <div>
-          <p>You have not created any shops yet.</p>
-          <Link to="/shops/new">Create a new shop</Link>
-        </div>
-      )}
+      <Container>
+        <Row>
+          {shops.map((shop) => (
+            <Col key={shop.id} xs={12} sm={6} md={4} lg={3} className="mb-3">
+              <Card className="h-100 w-100">
+                <Card.Body>
+                  <Card.Title>{shop.name}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">
+                    {shop.address}
+                  </Card.Subtitle>
+                  <Link
+                    className="btn btn-primary mt-2"
+                    to={`/shops/${shop.id}`}
+                  >
+                    View Shop
+                  </Link>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 }

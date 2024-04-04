@@ -18,6 +18,10 @@ function NavBar({ currentUser, handleLogout }) {
     navigate("/login");
   };
 
+  const handleDasboardClick = () => {
+    navigate("/dashboard");
+  };
+
   const handleNewUserClick = () => {
     navigate("/register");
   };
@@ -39,8 +43,8 @@ function NavBar({ currentUser, handleLogout }) {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 {currentUser && currentUser.last_name ? (
-                  <NavDropdown.Item>
-                    <span>Profile</span>
+                  <NavDropdown.Item onClick={handleDasboardClick}>
+                    <span>Dasboard</span>
                   </NavDropdown.Item>
                 ) : (
                   <NavDropdown.Item onClick={handleNewLoginClick}>

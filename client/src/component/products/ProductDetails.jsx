@@ -27,7 +27,7 @@ function ProductDetails() {
   }, [id]);
   return (
     <div className="mt-5 d-flex align-items-center justify-content-center">
-      <Card>
+      <Card className="w-75">
         <Card.Body>
           <Card.Title>{product.name}</Card.Title>
           <Card.Text>{product.description}</Card.Text>
@@ -35,7 +35,9 @@ function ProductDetails() {
           <Card.Text>Quantity: {product.quantity}</Card.Text>
         </Card.Body>
         <Card.Footer>
-          <Link to={`/shops/${shopId}`}>Back</Link>
+          <Link className="btn btn-warning" to={`/shops/${shopId}`}>
+            Back
+          </Link>
         </Card.Footer>
       </Card>
     </div>

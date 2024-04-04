@@ -24,6 +24,7 @@ function AppRoutes({ currentUser }) {
       />
       <Route path="shops/:id/products/new" element={<NewProductForm />} />
       <Route path="shops/:id/products/:id" element={<ProductDetails />} />
+      <Route path="/dashboard" element={<h1>Dashboard</h1>} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/login" element={<LoginForm />} />
     </Routes>

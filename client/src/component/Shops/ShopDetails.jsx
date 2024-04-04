@@ -7,9 +7,6 @@ import { destroyProduct } from "../../../ProductsServices";
 import { destroyShop } from "../../../ShopServices";
 import useShopDetails from "../../component/customHooks/useShopDetails";
 
-// Custom hook for fetching shop details
-
-// Product table row component
 const ProductTableRow = ({ product, onDelete, total }) => (
   <tr key={product.id}>
     <td>{product.name}</td>
@@ -34,55 +31,41 @@ const ProductTableRow = ({ product, onDelete, total }) => (
 const ShopDetails = ({ currentUser }) => {
   const { id: shopId } = useParams();
   const { shop, products, error, setProducts, setError } =
-    useShopDetails(shopId); // Use the custom hook
+    useShopDetails(shopId);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [productIdToDelete, setProductIdToDelete] = useState(null);
-  const [, setShopIdToDelete] = useState(null);
+  const [itemIdToDelete, setItemIdToDelete] = useState(null);
+  const [deleteType, setDeleteType] = useState(null);
   const navigate = useNavigate();
   const totalPrice = products.reduce(
     (acc, curr) => acc + curr.price * curr.quantity,
     0
   );
-  const [deleteType, setDeleteType] = useState(null); // Add deleteType state
 
   const userId = currentUser.id;
 
-  const handleProductDeleteConfirmation = (id) => {
-    setProductIdToDelete(id);
-    setDeleteType("product");
+  const handleDeleteConfirmation = (itemId, type) => {
+    setItemIdToDelete(itemId);
+    setDeleteType(type);
     setShowConfirmation(true);
   };
 
-  const handleShopDeleteConfirmation = (shopid) => {
-    setShopIdToDelete(shopid);
-    setDeleteType("shop");
-    setShowConfirmation(true);
-  };
-
-  const deleteProductHandler = async (productId) => {
+  const deleteHandler = async () => {
     try {
-      await destroyProduct(productId, shopId);
-      setProducts(products.filter((product) => product.id !== productId));
+      if (deleteType === "product") {
+        await destroyProduct(itemIdToDelete, shopId);
+        setProducts(
+          products.filter((product) => product.id !== itemIdToDelete)
+        );
+      } else if (deleteType === "shop") {
+        await destroyShop(userId, shopId);
+        navigate("/shops");
+      }
       setShowConfirmation(false);
     } catch (error) {
-      setError("Failed to delete the product. Please try again later.");
-      console.log(error);
-    } finally {
-      setProductIdToDelete(null);
-    }
-  };
-
-  const deleteShopHandler = async (shopId) => {
-    try {
-      await destroyShop(userId, shopId); // Assuming destroyShop deletes the shop based on the ID
-      // Assuming you don't need to update products or error state when deleting a shop
-      setShowConfirmation(false);
-      navigate("/shops");
-    } catch (error) {
-      setError("Failed to delete the shop. Please try again later.");
+      setError(`Failed to delete the ${deleteType}. Please try again later.`);
       console.error(error);
     } finally {
-      setShopIdToDelete(null);
+      setItemIdToDelete(null);
     }
   };
 
@@ -95,7 +78,7 @@ const ShopDetails = ({ currentUser }) => {
       {error && <Alert variant="danger">{error}</Alert>}
       <Button
         className="m-3 btn-danger"
-        onClick={() => handleShopDeleteConfirmation(shopId)}
+        onClick={() => handleDeleteConfirmation(shopId, "shop")}
       >
         Delete Shop
       </Button>
@@ -115,7 +98,7 @@ const ShopDetails = ({ currentUser }) => {
               <ProductTableRow
                 key={product.id}
                 product={product}
-                onDelete={handleProductDeleteConfirmation}
+                onDelete={(id) => handleDeleteConfirmation(id, "product")}
                 total={product.price * product.quantity}
               />
             ))}
@@ -126,8 +109,6 @@ const ShopDetails = ({ currentUser }) => {
           </tbody>
         </Table>
       </div>
-      {/* Confirmation Modal */}
-      {/* Confirmation Modal */}
       <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
@@ -140,25 +121,9 @@ const ShopDetails = ({ currentUser }) => {
           >
             Cancel
           </Button>
-          {/* Conditionally render "Delete Product" or "Delete Shop" button based on deleteType */}
-          {deleteType === "product" && (
-            <Button
-              variant="danger"
-              onClick={async () => {
-                await deleteProductHandler(productIdToDelete);
-              }}
-            >
-              Delete Product
-            </Button>
-          )}
-          {deleteType === "shop" && (
-            <Button
-              variant="danger"
-              onClick={async () => {
-                await deleteShopHandler(shopId);
-              }}
-            >
-              Delete Shop
+          {deleteType && (
+            <Button variant="danger" onClick={deleteHandler}>
+              Delete {deleteType.charAt(0).toUpperCase() + deleteType.slice(1)}
             </Button>
           )}
         </Modal.Footer>

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Alert, Button, Modal } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { destroyProduct } from "../../../ProductsServices";
@@ -8,7 +9,7 @@ import { destroyShop } from "../../../ShopServices";
 import useShopDetails from "../../component/customHooks/useShopDetails";
 
 const ProductTableRow = ({ product, onDelete, total }) => (
-  <tr key={product.id}>
+  <tr className="border" key={product.id}>
     <td>{product.name}</td>
     <td>{product.description}</td>
     <td>{product.price}</td>
@@ -82,33 +83,35 @@ const ShopDetails = ({ currentUser }) => {
       >
         Delete Shop
       </Button>
-      <div key={shop.id}>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total / product</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map((product) => (
-              <ProductTableRow
-                key={product.id}
-                product={product}
-                onDelete={(id) => handleDeleteConfirmation(id, "product")}
-                total={product.price * product.quantity}
-              />
-            ))}
-            <tr>
-              <td colSpan="2">Total Price:</td>
-              <td colSpan="3">${totalPrice}</td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
+      <Container>
+        <div key={shop.id}>
+          <Table striped borderless hover responsive>
+            <thead className="border">
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total / product</th>
+              </tr>
+            </thead>
+            <tbody className="border">
+              {products.map((product) => (
+                <ProductTableRow
+                  key={product.id}
+                  product={product}
+                  onDelete={(id) => handleDeleteConfirmation(id, "product")}
+                  total={product.price * product.quantity}
+                />
+              ))}
+            </tbody>
+            <tfoot>
+              <th colSpan="4">Total Price:</th>
+              <td>${totalPrice}</td>
+            </tfoot>
+          </Table>
+        </div>
+      </Container>
       <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>
